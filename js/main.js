@@ -242,21 +242,29 @@ const getUser = (userId) => {
 };
 //let otherData = getUsers()
 //console.log( otherData )
+
+const printUser =(userId) =>{
+  let user = getUser(userId);
+  //console.log(user.avatar);
+  return `<div class="d-flex autor"><img src="${user.avatar}" alt=""> <span>&nbsp ${user.name}</span></div>`
+}
+
 const printReplies = (postId) => {
   let replies = getReplies();
   let copy = { ...replies };
 
   for (key in replies) {
     if (replies[key].post === postId) {
-      let user = getUser(replies[key].userId);
-      console.log(user.avatar);
-      console.log("traeusercomment", user);
-      console.log(key);
+      //let user = getUser(replies[key].userId);
+      //console.log(user.avatar);
+      // console.log("traeusercomment", user);
+      let h3Id=Date.now()
 
-      let ulHtml = `<ul class="list-group">
+      let ulHtml = `<ul class="list-group bg-white border rounded m-2" id="">
                             <li class="list-group-item">
                                 <div class="reply-box">
-                                    <h3><img src="" alt=""><span>Name</span></h3>
+                                    <h3 id="${h3Id}"></h3>
+                                    
                                     <p>${replies[key].content}</p>
                                     <p class="text-right text-muted">
                                         <span class="date">${replies[key].creationDate}</span> 
@@ -267,8 +275,12 @@ const printReplies = (postId) => {
                         </ul>`;
       // console.log(ulHtml)
       let nameUl = `#replies-wrapper-${postId}`;
-      $(nameUl).append(ulHtml);
+      $(nameUl).prepend(ulHtml);
+      //print user
+      let userinfo = printUser(replies[key].userId)
+      $(`#${h3Id}`).append(userinfo);
     }
+    
   }
 };
 
@@ -277,29 +289,26 @@ const printPosts = (postsArray) => {
     //clean posts wrapper
     //$('#posts-wrapper .card').remove();
 
+    let userContainerId=Date.now()
+
     $("#posts-wrapper").append(
       `<div class="card mb-3 shadow">
-            <div class="bg-white p-3 mb-3 row no-gutters">
-              <div class="col-md-4">
+          <div class="bg-white p-3 mb-3 row no-gutters">
+            <div class="col-md-4">
                 <img class="w-100 rounded-left" src="${post.data.coverUrl}" alt="...">
-              </div>
-              <div class="col-md-8">
+            </div>
+            <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title text-primary">${post.data.title}</h5>
                   <p class="card-text">${post.data.content}</p>
+                  <p class="card-text text-primary p-2" id="${userContainerId}"></p>
                   <p class="card-text">
                   <small class="text-muted">Creado el <span class="text-dark">${post.data.creationDate} "${post.data.creationTime}"</span></small></p>
                 </div>
-              </div>
             </div>
-            <div>
-            <div class="col-md-12 bg-light p-2">
-              <div class="bg-white border rounded m-2">
-                <p class="card-text text-primary p-2">user:${post.data.userId}</p>
-              </div>
-            </div>
-            </div>
-            <div class="replies-wrapper" id="replies-wrapper-${post.data.postId}" >
+          </div>
+          
+          <div class="replies-wrapper bg-light p-2" id="replies-wrapper-${post.data.postId}" >
                 <!--replies-->
                 <div class="reply-form">
                     <form action="">
@@ -314,6 +323,9 @@ const printPosts = (postsArray) => {
       `
     );
     printReplies(post.data.postId);
+    //print user
+    let userinfo = printUser(post.data.userId)
+    $(`#${userContainerId}`).append(userinfo);
   });
 };
 printPosts(getPosts());
