@@ -215,7 +215,7 @@ const getUsers = () => {
     method: "GET",
     url: "https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/.json",
     success: (response) => {
-      console.log(response);
+      //console.log(response);
       dbUsers = response;
     },
     error: (error) => {
@@ -232,10 +232,9 @@ const getUser = (userId) => {
   let users = getUsers();
   for (key in users) {
     if (users[key].userId == userId) {
-      //console.log("UsuarioEncontrado:",users[key])
-      /* newUser[key].avatar = users[key].avatar;
-        newUser[key].name = users[key].name;
-        newUser[key].userId = users[key].userId;*/
+      newUser["name"] = users[key].name;
+      newUser["avatar"] = users[key].avatar;
+      newUser["userId"] = users[key].userId;
     }
   }
 
@@ -245,17 +244,19 @@ const getUser = (userId) => {
 //console.log( otherData )
 const printReplies = (postId) => {
   let replies = getReplies();
-  let repliesObject = {};
+  let copy = { ...replies };
 
   for (key in replies) {
     if (replies[key].post === postId) {
-      //console.log(replies[key])
-      /*let user = getUser(replies[key].userId)
-          console.log(user)*/
+      let user = getUser(replies[key].userId);
+      console.log(user.avatar);
+      console.log("traeusercomment", user);
+      console.log(key);
+
       let ulHtml = `<ul class="list-group">
                             <li class="list-group-item">
                                 <div class="reply-box">
-                                    <h3><img src="" alt=""><span>name</span></h3>
+                                    <h3><img src="" alt=""><span>Name</span></h3>
                                     <p>${replies[key].content}</p>
                                     <p class="text-right text-muted">
                                         <span class="date">${replies[key].creationDate}</span> 
@@ -318,4 +319,7 @@ const printPosts = (postsArray) => {
 printPosts(getPosts());
 
 //printReplies(2);
-//console.log("found: ",getUser(1))
+/*
+let miusuario = getUser(1);
+console.log(miusuario.name);
+console.log("found: ", getUser(1));*/
