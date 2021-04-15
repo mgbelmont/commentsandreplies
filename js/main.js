@@ -97,6 +97,32 @@ https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/replies/.json
 https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/.json
 */
 
+const saveReplie = (event) => {
+  let postId = $(event.target).data("commentkey");
+  let comment = $(`.reply-comment-${postId} form div input`).val();
+  //let message = `<div class="error-comment">Ingresa un comentario<div>`;
+  //$(`#replies-wrapper-${postId}`).append(message);
+  //console.log(moment().format("LT"));
+
+  $.ajax({
+    method: "POST",
+    url: "https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/replies/.json",
+    data: JSON.stringify({
+      content: comment,
+      creationDate: moment().format("l"),
+      creationTime: moment().format("LT"),
+      post: postId,
+      userId: 3,
+    }),
+    success: (response) => {
+      console.log(response);
+    },
+    error: (error) => {
+      console.log(error);
+    },
+  });
+};
+
 const savePosts = () => {
   $.ajax({
     method: "POST",
@@ -120,7 +146,8 @@ const savePosts = () => {
   });
 };
 
-const saveReplies = () => {
+const saveReplies = (event) => {
+  $(event.target).data("mentorkey");
   $.ajax({
     method: "POST",
     url: "https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/replies/.json",
@@ -178,7 +205,7 @@ const getPosts = () => {
     async: false,
   });
 
-  // console.log( d bData )
+  console.log("getPosts", dbPosts);
   return dbPosts;
 };
 
@@ -243,11 +270,11 @@ const getUser = (userId) => {
 //let otherData = getUsers()
 //console.log( otherData )
 
-const printUser =(userId) =>{
+const printUser = (userId) => {
   let user = getUser(userId);
   //console.log(user.avatar);
-  return `<div class="d-flex autor"><img src="${user.avatar}" alt=""> <span>&nbsp ${user.name}</span></div>`
-}
+  return `<div class="d-flex autor"><img src="${user.avatar}" alt=""> <span>&nbsp ${user.name}</span></div>`;
+};
 
 const printReplies = (postId) => {
   let replies = getReplies();
@@ -258,7 +285,7 @@ const printReplies = (postId) => {
       //let user = getUser(replies[key].userId);
       //console.log(user.avatar);
       // console.log("traeusercomment", user);
-      let h3Id=Date.now()
+      let h3Id = Date.now();
 
       let ulHtml = `<ul class="list-group bg-white border rounded m-2" id="">
                             <li class="list-group-item">
@@ -277,10 +304,9 @@ const printReplies = (postId) => {
       let nameUl = `#replies-wrapper-${postId}`;
       $(nameUl).prepend(ulHtml);
       //print user
-      let userinfo = printUser(replies[key].userId)
+      let userinfo = printUser(replies[key].userId);
       $(`#${h3Id}`).append(userinfo);
     }
-    
   }
 };
 
@@ -289,7 +315,7 @@ const printPosts = (postsArray) => {
     //clean posts wrapper
     //$('#posts-wrapper .card').remove();
 
-    let userContainerId=Date.now()
+    let userContainerId = Date.now();
 
     $("#posts-wrapper").append(
       `<div class="card mb-3 shadow">
@@ -299,7 +325,7 @@ const printPosts = (postsArray) => {
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title text-primary">${post.data.title}</h5>
+                  <a href="/views/postDetail.html?postkey=${post.id}" target="_blank"><h5 class="card-title text-primary">${post.data.title}</h5></a>
                   <p class="card-text">${post.data.content}</p>
                   <p class="card-text text-primary p-2" id="${userContainerId}"></p>
                   <p class="card-text">
@@ -310,11 +336,11 @@ const printPosts = (postsArray) => {
           
           <div class="replies-wrapper bg-light p-2" id="replies-wrapper-${post.data.postId}" >
                 <!--replies-->
-                <div class="reply-form">
+                <div class="reply-form reply-comment-${post.data.postId}">
                     <form action="">
                         <div class="form-group d-flex m-3">
                             <input type="text" class="form-control" placeholder="Write a comment">
-                            <button class="btn btn-primary">Comment</button>
+                            <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}">Comment</button>
                         </div>
                     </form>
                 </div>
@@ -324,7 +350,7 @@ const printPosts = (postsArray) => {
     );
     printReplies(post.data.postId);
     //print user
-    let userinfo = printUser(post.data.userId)
+    let userinfo = printUser(post.data.userId);
     $(`#${userContainerId}`).append(userinfo);
   });
 };
@@ -335,3 +361,5 @@ printPosts(getPosts());
 let miusuario = getUser(1);
 console.log(miusuario.name);
 console.log("found: ", getUser(1));*/
+
+$(".btn-save-replie").click(saveReplie);
