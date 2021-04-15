@@ -243,6 +243,33 @@ const getUser = (userId) => {
 };
 //let otherData = getUsers()
 //console.log( otherData )
+const printReplies = (postId) => {
+  let replies = getReplies();
+  let repliesObject = {};
+
+  for (key in replies) {
+    if (replies[key].post === postId) {
+      //console.log(replies[key])
+      /*let user = getUser(replies[key].userId)
+          console.log(user)*/
+      let ulHtml = `<ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="reply-box">
+                                    <h3><img src="" alt=""><span>name</span></h3>
+                                    <p>${replies[key].content}</p>
+                                    <p class="text-right text-muted">
+                                        <span class="date">${replies[key].creationDate}</span> 
+                                        <span class="time">${replies[key].creationTime}</span>   
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>`;
+      // console.log(ulHtml)
+      let nameUl = `#replies-wrapper-${postId}`;
+      $(nameUl).append(ulHtml);
+    }
+  }
+};
 
 const printPosts = (postsArray) => {
   postsArray.forEach((post, index) => {
@@ -285,37 +312,10 @@ const printPosts = (postsArray) => {
         </div>        
       `
     );
+    printReplies(post.data.postId);
   });
 };
 printPosts(getPosts());
 
-const printReplies = (postId) => {
-  let replies = getReplies();
-  let repliesObject = {};
-
-  for (key in replies) {
-    if (replies[key].post === postId) {
-      //console.log(replies[key])
-      /*let user = getUser(replies[key].userId)
-          console.log(user)*/
-      let ulHtml = `<ul class="list-group">
-                            <li class="list-group-item">
-                                <div class="reply-box">
-                                    <h3><img src="" alt=""><span>name</span></h3>
-                                    <p>${replies[key].content}</p>
-                                    <p class="text-right text-muted">
-                                        <span class="date">${replies[key].creationDate}</span> 
-                                        <span class="time">${replies[key].creationTime}</span>   
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>`;
-      // console.log(ulHtml)
-      let nameUl = `#replies-wrapper-${postId}`;
-      $(nameUl).append(ulHtml);
-    }
-  }
-};
-
-//printReplies(1)
+//printReplies(2);
 //console.log("found: ",getUser(1))
