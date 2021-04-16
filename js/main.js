@@ -277,7 +277,7 @@ const printUser = (userId) => {
   //console.log(user.avatar);
   return `<div class="autor">
   <img src="${user.avatar}" alt=""> 
-  <span class="">&nbsp ${user.name}</span>
+  <span class="comment-autor text-blue"><small>&nbsp ${user.name}</small></span>
   </div>`;
 };
 
@@ -297,8 +297,8 @@ const printReplies = (postId) => {
                                 <div class="reply-box">
                                     <h3 id="${h3Id}"></h3>
                                     
-                                    <p>${replies[key].content}</p>
-                                    <p class="text-right text-muted">
+                                    <p class="mb-0 text-muted comment-text">${replies[key].content}</p>
+                                    <p class="mb-0 text-right text-muted comment-date">
                                         <span class="date">${replies[key].creationDate}</span> 
                                         <span class="time">${replies[key].creationTime}</span>   
                                     </p>
@@ -324,7 +324,6 @@ const printReplies = (postId) => {
 };
 
 const printPosts = (postsArray) => {
-  
   postsArray.forEach((post, index) => {
     //clean posts wrapper
     //$('#posts-wrapper .card').remove();
@@ -339,17 +338,17 @@ const printPosts = (postsArray) => {
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                  <a href="/views/postDetail.html?postkey=${post.id}" target="_blank"><h5 class="card-title text-primary">${post.data.title}</h5></a>
+                  <a href="/views/postDetail.html?postkey=${post.id}" target="_blank"><h5 class="card-title text-blue">${post.data.title}</h5></a>
                   <p class="card-text">${post.data.content}</p>
-                  <p class="card-text text-primary px-0 py-2 mb-0" id="${userContainerId}"></p>
-                  <p class="card-text">
-                  <small class="text-muted">Creado el <span class="text-dark">${post.data.creationDate} "${post.data.creationTime}"</span></small></p>
+                  <p class="card-text mb-0">
+                  <small class="text-muted">Created: <span class="text-dark">${post.data.creationDate} ${post.data.creationTime}</span></small></p>
+                  <p class="card-text px-0 py-2 mb-0" id="${userContainerId}"></p>
                 </div>
             </div>
           </div>
           
           <ul class="replies-wrapper bg-light p-3" id="replies-wrapper-${post.data.postId}" >
-          <a class="archive" href="#"></a>
+          <a class="archive text-muted" href="#"></a>
           </ul>
           <!--replies-->
           <div class="reply-form reply-comment-${post.data.postId}">
@@ -368,7 +367,18 @@ const printPosts = (postsArray) => {
     let userinfo = printUser(post.data.userId);
     $(`#${userContainerId}`).append(userinfo);
 
-    // para mostrar y ocultar los comentarios. Mostrando solo el primero
+    // INICIA FUNCION PARA MOSTRAR U OCULTAR LOS COMENTARIOS. Mostrando solo el primero
+    $(`#replies-wrapper-${post.data.postId} .list-group-item`).first().removeClass("list-group-item");
+    $(`#replies-wrapper-${post.data.postId} li`).first().addClass("first-list-item");    
+
+    var news = 0;
+
+    hidenews = "- Hide comments";
+    shownews = "+ Show more comments";
+
+    $(".archive").html( shownews );
+    $(".list-group-item").hide();
+
     $(".archive").click(function (e) {
       e.preventDefault();
     var $container = $(e.currentTarget).closest(`#replies-wrapper-${post.data.postId}`);
@@ -380,6 +390,7 @@ const printPosts = (postsArray) => {
               $container.find(".archive").html( shownews );
           }
     });
+    // ACABA FUNCION
 
   });
 };
@@ -410,15 +421,5 @@ const goAddPost = () => {
 
 $('#go-add-post').click(goAddPost)
 
-$(".list-group-item").first().removeClass("list-group-item");
-$(".list-group-item").first().addClass("title");    
-
-var news = 0;
-
-hidenews = "- Hide news comments";
-shownews = "+ Show more comments";
-
-$(".archive").html( shownews );
-$(".list-group-item").hide();
 
 

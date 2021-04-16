@@ -1,3 +1,10 @@
+.text-blue{
+  color: #0060ae;
+}
+.logo{
+  width: 100px;
+}
+
 #posts-wrapper {
   padding: 3em;
 }
@@ -11,6 +18,7 @@
   border-radius: 50%;
 }
 
+/*Estilo para el boton de "mostrar comentarios"*/
 #all-comments{
   background: none;
   color: #4f4f4f;
@@ -24,10 +32,43 @@
     font-size: 11pt;
 }
 
+.comment-autor{
+  font-size: 14pt;
+}
+
+.comment-text{
+  font-size: 11pt;
+}
+
+.comment-date{
+  font-size: 8pt;
+}
+
+.archive{
+  margin-top: 14px;
+  display: block;
+}
+
+
+/*Estilo para el primer comentario*/
+.first-list-item{
+  background: #fff;
+  border: 1px solid #DFDFDF;
+  list-style: none;
+  padding: 20px;
+}
+
+/*Estilo para el boton de agregar post*/
 .add-post{
   position: fixed;
   bottom: 0;
   margin: 2%;
+}
+
+/*Estilos apra las cards*/
+.card {
+  width: 100%;
+  margin: auto;
 }
 
 @media screen and (min-width: 770px){
