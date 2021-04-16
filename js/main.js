@@ -344,9 +344,9 @@ const printPosts = (postsArray) => {
             </div>
           </div>
 
-          <button id="all-comments" type="button" class="mx-auto btn btn-primary" data-toggle="collapse" href="#replies-wrapper-${post.data.postId}" role="button" aria-expanded="false" aria-controls="collapseExample">Show All Comments</button>
+          <button id="all-comments" type="button" class="" data-toggle="collapse" href="#replies-wrapper-${post.data.postId}" role="button" aria-expanded="false" aria-controls="collapseExample">Show All Comments</button>
           
-          <ul class="replies-wrapper bg-light p-2 collapse {{ $loop->first ? "show" : "" }}" id="replies-wrapper-${post.data.postId}" >
+          <ul class="replies-wrapper bg-light p-2 collapse" id="replies-wrapper-${post.data.postId}" >
           </ul>
           <!--replies-->
           <div class="reply-form reply-comment-${post.data.postId}">
@@ -384,3 +384,4 @@ const activeComment = (event) => {
 $(".comment-input").keyup(activeComment);
 
 $(".btn-save-replie").click(saveReplie);
+

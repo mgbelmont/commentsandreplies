@@ -9,4 +9,17 @@
 
 #all-comments{
   width: 50%;
+  background: none;
+  color: #4f4f4f;
+  border: none;
+}
+
+#all-comments a{
+    font-size: 11pt;
+}
+
+.add-post{
+  position: fixed;
+  bottom: 0;
+  margin: 2%;
 }
