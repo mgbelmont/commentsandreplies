@@ -275,7 +275,10 @@ const getUser = (userId) => {
 const printUser = (userId) => {
   let user = getUser(userId);
   //console.log(user.avatar);
-  return `<div class="d-flex autor"><img src="${user.avatar}" alt=""> <span>&nbsp ${user.name}</span></div>`;
+  return `<div class="autor">
+  <img src="${user.avatar}" alt=""> 
+  <span class="">&nbsp ${user.name}</span>
+  </div>`;
 };
 
 const printReplies = (postId) => {
@@ -337,8 +340,8 @@ const printPosts = (postsArray) => {
                 <div class="card-body">
                   <a href="/views/postDetail.html?postkey=${post.id}" target="_blank"><h5 class="card-title text-primary">${post.data.title}</h5></a>
                   <p class="card-text">${post.data.content}</p>
-                  <p class="card-text text-primary p-2" id="${userContainerId}"></p>
-                  <p class="card-text text-right">
+                  <p class="card-text text-primary px-0 py-2 mb-0" id="${userContainerId}"></p>
+                  <p class="card-text">
                   <small class="text-muted">Creado el <span class="text-dark">${post.data.creationDate} "${post.data.creationTime}"</span></small></p>
                 </div>
             </div>

@@ -1,6 +1,10 @@
 #posts-wrapper {
   padding: 3em;
 }
+
+.card-body{
+  padding-top: 0;
+}
 .autor img{
   width: 35px;
   height: 35px;
