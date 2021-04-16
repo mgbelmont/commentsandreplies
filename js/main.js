@@ -116,6 +116,8 @@ const saveReplie = (event) => {
     }),
     success: (response) => {
       console.log(response);
+      printReplies(postId);
+      $(`.reply-comment-${postId} form`)[0].reset();
     },
     error: (error) => {
       console.log(error);
@@ -277,6 +279,7 @@ const printUser = (userId) => {
 };
 
 const printReplies = (postId) => {
+  $(`#replies-wrapper-${postId} ul`).remove();
   let replies = getReplies();
   let copy = { ...replies };
 
@@ -339,8 +342,8 @@ const printPosts = (postsArray) => {
                 <div class="reply-form reply-comment-${post.data.postId}">
                     <form action="">
                         <div class="form-group d-flex m-3">
-                            <input type="text" class="form-control" placeholder="Write a comment">
-                            <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}">Comment</button>
+                            <input type="text" class="form-control comment-input" placeholder="Write a comment">
+                            <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}" disabled>Comment</button>
                         </div>
                     </form>
                 </div>
@@ -361,5 +364,14 @@ printPosts(getPosts());
 let miusuario = getUser(1);
 console.log(miusuario.name);
 console.log("found: ", getUser(1));*/
+const activeComment = (event) => {
+  let lengthComment = $(event.target).val().length;
+  //console.log(lengthComment);
+  lengthComment >= 3
+    ? $(event.target).next("button").attr("disabled", false)
+    : $(event.target).next("button").attr("disabled", true);
+};
+
+$(".comment-input").keyup(activeComment);
 
 $(".btn-save-replie").click(saveReplie);
