@@ -324,6 +324,7 @@ const printReplies = (postId) => {
 };
 
 const printPosts = (postsArray) => {
+  
   postsArray.forEach((post, index) => {
     //clean posts wrapper
     //$('#posts-wrapper .card').remove();
@@ -366,6 +367,20 @@ const printPosts = (postsArray) => {
     //print user
     let userinfo = printUser(post.data.userId);
     $(`#${userContainerId}`).append(userinfo);
+
+    // para mostrar y ocultar los comentarios. Mostrando solo el primero
+    $(".archive").click(function (e) {
+      e.preventDefault();
+    var $container = $(e.currentTarget).closest(`#replies-wrapper-${post.data.postId}`);
+          if ($container.find(".list-group-item:eq("+news+")").is(":hidden")) {
+              $container.find(".list-group-item:not(:lt("+news+"))").slideDown();
+              $container.find(".archive").html( hidenews );
+          } else {
+              $container.find(".list-group-item:not(:lt("+news+"))").slideUp();
+              $container.find(".archive").html( shownews );
+          }
+    });
+
   });
 };
 printPosts(getPosts());
@@ -406,15 +421,4 @@ shownews = "+ Show more comments";
 $(".archive").html( shownews );
 $(".list-group-item").hide();
 
-// para mostrar y ocultar los comentarios. Mostrando solo el primero
-$(".archive").click(function (e) {
-   e.preventDefault();
-var $container = $(e.currentTarget).closest('#replies-wrapper-2');
-       if ($container.find(".list-group-item:eq("+news+")").is(":hidden")) {
-           $container.find(".list-group-item:not(:lt("+news+"))").slideDown();
-           $container.find(".archive").html( hidenews );
-       } else {
-           $container.find(".list-group-item:not(:lt("+news+"))").slideUp();
-           $container.find(".archive").html( shownews );
-       }
-});
+
