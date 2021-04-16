@@ -343,18 +343,20 @@ const printPosts = (postsArray) => {
                 </div>
             </div>
           </div>
+
+          <button id="all-comments" type="button" class="mx-auto btn btn-primary" data-toggle="collapse" href="#replies-wrapper-${post.data.postId}" role="button" aria-expanded="false" aria-controls="collapseExample">Show All Comments</button>
           
-          <ul class="replies-wrapper bg-light p-2" id="replies-wrapper-${post.data.postId}" >
-                <!--replies-->
-                <div class="reply-form reply-comment-${post.data.postId}">
-                    <form action="">
-                        <div class="form-group d-flex m-3">
-                            <input type="text" class="form-control comment-input" placeholder="Write a comment">
-                            <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}" disabled>Comment</button>
-                        </div>
-                    </form>
-                </div>
+          <ul class="replies-wrapper bg-light p-2 collapse {{ $loop->first ? "show" : "" }}" id="replies-wrapper-${post.data.postId}" >
           </ul>
+          <!--replies-->
+          <div class="reply-form reply-comment-${post.data.postId}">
+              <form action="">
+                  <div class="form-group d-flex m-3">
+                      <input type="text" class="form-control comment-input" placeholder="Write a comment">
+                      <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}" disabled>Comment</button>
+                  </div>
+              </form>
+          </div>
         </div>        
       `
     );
