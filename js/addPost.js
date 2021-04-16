@@ -29,6 +29,13 @@ const savePosts = () => {
 
   $('#btnAddPost').click(savePosts)
 
-  $('#btn-back').click($(location).attr('href','../index.html'))
+  //$('#btn-back').click($(location).attr('href','../index.html'))
+
+
+  const goHome = () => {
+    $(location).attr('href','../index.html')
+  }
+  
+  $('#btn-back').click(goHome)
 
   

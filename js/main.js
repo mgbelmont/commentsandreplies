@@ -381,7 +381,14 @@ const activeComment = (event) => {
     : $(event.target).next("button").attr("disabled", true);
 };
 
+
+
 $(".comment-input").keyup(activeComment);
 
 $(".btn-save-replie").click(saveReplie);
 
+const goAddPost = () => {
+  $(location).attr('href','/views/addPost.html')
+}
+
+$('#go-add-post').click(goAddPost)
