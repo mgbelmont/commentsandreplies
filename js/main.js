@@ -287,8 +287,7 @@ const printReplies = (postId) => {
       // console.log("traeusercomment", user);
       let h3Id = Date.now();
 
-      let ulHtml = `<ul class="list-group bg-white border rounded m-2" id="">
-                            <li class="list-group-item">
+      let liHTML = `<li class="list-group-item">
                                 <div class="reply-box">
                                     <h3 id="${h3Id}"></h3>
                                     
@@ -299,10 +298,18 @@ const printReplies = (postId) => {
                                     </p>
                                 </div>
                             </li>
-                        </ul>`;
-      // console.log(ulHtml)
-      let nameUl = `#replies-wrapper-${postId}`;
-      $(nameUl).prepend(ulHtml);
+                        `;
+        // console.log(ulHtml)
+        
+      let ulHTML = document.createElement("ul")
+      ulHTML.classList = "list-group bg-white border rounded m-2"
+
+      $(ulHTML).append(liHTML)
+
+      let repWrapp = `#replies-wrapper-${postId}`;
+
+      $(repWrapp).prepend(ulHTML);
+      
       //print user
       let userinfo = printUser(replies[key].userId);
       $(`#${h3Id}`).append(userinfo);
