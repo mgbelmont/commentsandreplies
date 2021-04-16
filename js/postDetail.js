@@ -40,6 +40,8 @@ const printPostData = (data) => {
   $(".post-wrapper div img").attr("src", data.coverUrl);
   $(".post-wrapper div h5").append(data.title);
   $(".content").append(data.content);
-  $(".creation").append(data.title);
+  let dateTimeHtml = `Creado el <span class="text-dark creation">${data.creationDate}
+                      ${data.creationTime}</span>`;
+  $(".creation").append(dateTimeHtml);
 };
 printPostData(getPost(postKey));
