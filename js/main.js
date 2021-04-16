@@ -279,7 +279,7 @@ const printUser = (userId) => {
 };
 
 const printReplies = (postId) => {
-  $(`#replies-wrapper-${postId} ul`).remove();
+  $(`#replies-wrapper-${postId} li`).remove();
   let replies = getReplies();
   let copy = { ...replies };
 
@@ -302,17 +302,17 @@ const printReplies = (postId) => {
                                 </div>
                             </li>
                         `;
-        // console.log(ulHtml)
-        
-      let ulHTML = document.createElement("ul")
-      ulHTML.classList = "list-group bg-white border rounded m-2"
+      // console.log(ulHtml)
+      /*
+      let ulHTML = document.createElement("ul");
+      ulHTML.classList = "list-group bg-white border rounded m-2";
 
-      $(ulHTML).append(liHTML)
+      $(ulHTML).append(liHTML);*/
 
       let repWrapp = `#replies-wrapper-${postId}`;
 
-      $(repWrapp).prepend(ulHTML);
-      
+      $(repWrapp).prepend(liHTML);
+
       //print user
       let userinfo = printUser(replies[key].userId);
       $(`#${h3Id}`).append(userinfo);
@@ -344,7 +344,7 @@ const printPosts = (postsArray) => {
             </div>
           </div>
           
-          <div class="replies-wrapper bg-light p-2" id="replies-wrapper-${post.data.postId}" >
+          <ul class="replies-wrapper bg-light p-2" id="replies-wrapper-${post.data.postId}" >
                 <!--replies-->
                 <div class="reply-form reply-comment-${post.data.postId}">
                     <form action="">
@@ -354,7 +354,7 @@ const printPosts = (postsArray) => {
                         </div>
                     </form>
                 </div>
-          </div>
+          </ul>
         </div>        
       `
     );
