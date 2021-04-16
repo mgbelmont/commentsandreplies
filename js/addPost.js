@@ -37,5 +37,6 @@ const savePosts = () => {
   }
   
   $('#btn-back').click(goHome)
+  $('.logo').click(goHome)
 
   
