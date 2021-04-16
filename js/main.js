@@ -346,10 +346,9 @@ const printPosts = (postsArray) => {
                 </div>
             </div>
           </div>
-
-          <button id="all-comments" type="button" class="" data-toggle="collapse" href="#replies-wrapper-${post.data.postId}" role="button" aria-expanded="false" aria-controls="collapseExample">Show All Comments</button>
           
-          <ul class="replies-wrapper bg-light p-3 collapse" id="replies-wrapper-${post.data.postId}" >
+          <ul class="replies-wrapper bg-light p-3" id="replies-wrapper-${post.data.postId}" >
+          <a class="archive" href="#"></a>
           </ul>
           <!--replies-->
           <div class="reply-form reply-comment-${post.data.postId}">
@@ -395,3 +394,27 @@ const goAddPost = () => {
 }
 
 $('#go-add-post').click(goAddPost)
+
+$(".list-group-item").first().removeClass("list-group-item");
+$(".list-group-item").first().addClass("title");    
+
+var news = 0;
+
+hidenews = "- Hide news comments";
+shownews = "+ Show more comments";
+
+$(".archive").html( shownews );
+$(".list-group-item").hide();
+
+// para mostrar y ocultar los comentarios. Mostrando solo el primero
+$(".archive").click(function (e) {
+   e.preventDefault();
+var $container = $(e.currentTarget).closest('#replies-wrapper-2');
+       if ($container.find(".list-group-item:eq("+news+")").is(":hidden")) {
+           $container.find(".list-group-item:not(:lt("+news+"))").slideDown();
+           $container.find(".archive").html( hidenews );
+       } else {
+           $container.find(".list-group-item:not(:lt("+news+"))").slideUp();
+           $container.find(".archive").html( shownews );
+       }
+});
