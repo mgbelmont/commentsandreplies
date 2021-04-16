@@ -1,5 +1,5 @@
 
-const savePosts = (event) => {
+const savePosts = () => {
 
     let inputTitle = $('#title').val()
     let inputContent = $('#content').val()
@@ -19,6 +19,7 @@ const savePosts = (event) => {
       }),
       success: (response) => {
         console.log(response);
+        $(`#addPostForm`)[0].reset();
       },
       error: (error) => {
         console.log(error);
@@ -26,6 +27,8 @@ const savePosts = (event) => {
     });
   };
 
-
   $('#btnAddPost').click(savePosts)
 
+  $('#btn-back').click($(location).attr('href','../index.html'))
+
+  
