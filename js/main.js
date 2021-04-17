@@ -491,8 +491,9 @@ const selectUsers = () => {
     );
   }
 };
-//loginUser("-MYSNWmKsgdY6xSLYSeB");
-//logoutUser("-MYSNWmKsgdY6xSLYSeB");
+
+selectUsers();
+
 const getUserLogin = () => {
   let newUser = {};
   let users = getUsers();
@@ -501,12 +502,12 @@ const getUserLogin = () => {
       newUser["name"] = users[key].name;
       newUser["avatar"] = users[key].avatar;
       newUser["userId"] = users[key].userId;
+      newUser["key"] = key;
     }
   }
-
+  $("#change-user option[value=" + newUser.key + "]").attr("selected", true);
   return newUser;
 };
 
-selectUsers();
-$("#change-user").on("change", loginUser);
 console.log(getUserLogin());
+$("#change-user").on("change", loginUser);
