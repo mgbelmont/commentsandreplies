@@ -354,14 +354,15 @@ const printPosts = (postsArray) => {
           <div class="reply-form reply-comment-${post.data.postId}">
               <form action="">
                   <div class="form-group d-flex m-3">
-                      <input type="text" class="form-control comment-input" placeholder="Write a comment">
-                      <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}" disabled>Comment</button>
+                      <input type="text" class="form-control comment-input" placeholder="Escribe un comentario">
+                      <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}" disabled>Comentar</button>
                   </div>
               </form>
           </div>
         </div>        
       `
     );
+    
     printReplies(post.data.postId);
     //print user
     let userinfo = printUser(post.data.userId);
@@ -408,7 +409,6 @@ const activeComment = (event) => {
     ? $(event.target).next("button").attr("disabled", false)
     : $(event.target).next("button").attr("disabled", true);
 };
-
 
 
 $(".comment-input").keyup(activeComment);
