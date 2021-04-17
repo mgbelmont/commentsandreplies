@@ -330,7 +330,7 @@ const printPosts = (postsArray) => {
 
     let userContainerId = Date.now();
 
-    $("#posts-wrapper").append(
+    $("#posts-wrapper").prepend(
       `<div class="card mb-3 shadow">
           <div class="bg-white p-3 mb-3 row no-gutters">
             <div class="col-md-4">
