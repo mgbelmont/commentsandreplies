@@ -109,33 +109,6 @@ const deleteUser = (key) => {
     },
   });
 };
-const saveReplie = (event) => {
-  let postId = $(event.target).data("commentkey");
-  let comment = $(`.reply-comment-${postId} form div input`).val();
-  //let message = `<div class="error-comment">Ingresa un comentario<div>`;
-  //$(`#replies-wrapper-${postId}`).append(message);
-  //console.log(moment().format("LT"));
-
-  $.ajax({
-    method: "POST",
-    url: "https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/replies/.json",
-    data: JSON.stringify({
-      content: comment,
-      creationDate: moment().format("l"),
-      creationTime: moment().format("LT"),
-      post: postId,
-      userId: 3,
-    }),
-    success: (response) => {
-      console.log(response);
-      printReplies(postId);
-      $(`.reply-comment-${postId} form`)[0].reset();
-    },
-    error: (error) => {
-      console.log(error);
-    },
-  });
-};
 
 const savePosts = () => {
   $.ajax({
@@ -281,163 +254,50 @@ const getUser = (userId) => {
 
   return newUser;
 };
-//let otherData = getUsers()
-//console.log( otherData )
-
-const printUser = (userId) => {
-  let user = getUser(userId);
-  //console.log(user.avatar);
-  return `<div class="autor">
-  <img src="${user.avatar}" alt=""> 
-  <span class="comment-autor text-blue"><small>&nbsp ${user.name}</small></span>
-  </div>`;
-};
-
-const printReplies = (postId) => {
-  $(`#replies-wrapper-${postId} li`).remove();
-  let replies = getReplies();
-  let copy = { ...replies };
-
-  for (key in replies) {
-    if (replies[key].post === postId) {
-      //let user = getUser(replies[key].userId);
-      //console.log(user.avatar);
-      // console.log("traeusercomment", user);
-      let h3Id = Date.now();
-
-      let liHTML = `<li class="list-group-item">
-                                <div class="reply-box">
-                                    <h3 id="${h3Id}"></h3>
-                                    
-                                    <p class="mb-0 text-muted comment-text">${replies[key].content}</p>
-                                    <p class="mb-0 text-right text-muted comment-date">
-                                        <span class="date">${replies[key].creationDate}</span> 
-                                        <span class="time">${replies[key].creationTime}</span>   
-                                    </p>
-                                </div>
-                            </li>
-                        `;
-      // console.log(ulHtml)
-      /*
-      let ulHTML = document.createElement("ul");
-      ulHTML.classList = "list-group bg-white border rounded m-2";
-
-      $(ulHTML).append(liHTML);*/
-
-      let repWrapp = `#replies-wrapper-${postId}`;
-
-      $(repWrapp).prepend(liHTML);
-
-      //print user
-      let userinfo = printUser(replies[key].userId);
-      $(`#${h3Id}`).append(userinfo);
+const getUserLogin = () => {
+  let newUser = {};
+  let users = getUsers();
+  for (key in users) {
+    if (users[key].login == "1") {
+      newUser["name"] = users[key].name;
+      newUser["avatar"] = users[key].avatar;
+      newUser["userId"] = users[key].userId;
+      newUser["key"] = key;
     }
   }
+  $("#change-user option[value=" + newUser.key + "]").attr("selected", true);
+  return newUser;
 };
+const saveReplie = (event) => {
+  let postId = $(event.target).data("commentkey");
+  let comment = $(`.reply-comment-${postId} form div input`).val();
+  let userLogin = getUserLogin();
+  //let message = `<div class="error-comment">Ingresa un comentario<div>`;
+  //$(`#replies-wrapper-${postId}`).append(message);
+  //console.log(moment().format("LT"));
 
-const printPosts = (postsArray) => {
-  postsArray.forEach((post, index) => {
-    //clean posts wrapper
-    //$('#posts-wrapper .card').remove();
-
-    let userContainerId = Date.now();
-
-    $("#posts-wrapper").prepend(
-      `<div class="card mb-3 shadow">
-          <div class="bg-white p-3 mb-3 row no-gutters">
-            <div class="col-md-4">
-                <img class="w-100 rounded-left" src="${post.data.coverUrl}" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                  <a href="/views/postDetail.html?postkey=${post.id}" target="_blank"><h5 class="card-title text-blue">${post.data.title}</h5></a>
-                  <p class="card-text">${post.data.content}</p>
-                  <p class="card-text mb-0">
-                  <small class="text-muted">Created: <span class="text-dark">${post.data.creationDate} ${post.data.creationTime}</span></small></p>
-                  <p class="card-text px-0 py-2 mb-0" id="${userContainerId}"></p>
-                </div>
-            </div>
-          </div>
-          
-          <ul class="replies-wrapper bg-light p-3" id="replies-wrapper-${post.data.postId}" >
-          <a class="archive text-muted" href="#"></a>
-          </ul>
-          <!--replies-->
-          <div class="reply-form reply-comment-${post.data.postId}">
-              <form action="">
-                  <div class="form-group d-flex m-3">
-                      <input type="text" class="form-control comment-input" placeholder="Escribe un comentario">
-                      <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}" disabled>Comentar</button>
-                  </div>
-              </form>
-          </div>
-        </div>        
-      `
-    );
-    
-    printReplies(post.data.postId);
-    //print user
-    let userinfo = printUser(post.data.userId);
-    $(`#${userContainerId}`).append(userinfo);
-
-    // INICIA FUNCION PARA MOSTRAR U OCULTAR LOS COMENTARIOS. Mostrando solo el primero
-    $(`#replies-wrapper-${post.data.postId} .list-group-item`)
-      .first()
-      .removeClass("list-group-item");
-    $(`#replies-wrapper-${post.data.postId} li`)
-      .first()
-      .addClass("first-list-item");
-
-    var news = 0;
-
-    hidenews = "- Hide comments";
-    shownews = "+ Show more comments";
-
-    $(".archive").html(shownews);
-    $(".list-group-item").hide();
-
-    $(".archive").click(function (e) {
-      e.preventDefault();
-      var $container = $(e.currentTarget).closest(
-        `#replies-wrapper-${post.data.postId}`
-      );
-      if ($container.find(".list-group-item:eq(" + news + ")").is(":hidden")) {
-        $container.find(".list-group-item:not(:lt(" + news + "))").slideDown();
-        $container.find(".archive").html(hidenews);
-      } else {
-        $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
-        $container.find(".archive").html(shownews);
-      }
-    });
-    // ACABA FUNCION
+  $.ajax({
+    method: "POST",
+    url: "https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/replies/.json",
+    data: JSON.stringify({
+      content: comment,
+      creationDate: moment().format("l"),
+      creationTime: moment().format("LT"),
+      post: postId,
+      userId: userLogin.userId,
+    }),
+    success: (response) => {
+      console.log(response);
+      printReplies(postId);
+      $(`.reply-comment-${postId} form`)[0].reset();
+    },
+    error: (error) => {
+      console.log(error);
+    },
   });
 };
-printPosts(getPosts());
-
-//printReplies(2);
-/*
-let miusuario = getUser(1);
-console.log(miusuario.name);
-console.log("found: ", getUser(1));*/
-const activeComment = (event) => {
-  let lengthComment = $(event.target).val().length;
-  //console.log(lengthComment);
-  lengthComment >= 3
-    ? $(event.target).next("button").attr("disabled", false)
-    : $(event.target).next("button").attr("disabled", true);
-};
-
-
-$(".comment-input").keyup(activeComment);
-
-$(".btn-save-replie").click(saveReplie);
-
-const goAddPost = () => {
-  $(location).attr("href", "/views/addPost.html");
-};
-
-$("#go-add-post").click(goAddPost);
-
+//let otherData = getUsers()
+//console.log( otherData )
 const logoutUser = (key) => {
   let urlString = `https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/${key}.json`;
   $.ajax({
@@ -496,20 +356,157 @@ const selectUsers = () => {
 
 selectUsers();
 
-const getUserLogin = () => {
-  let newUser = {};
-  let users = getUsers();
-  for (key in users) {
-    if (users[key].login == "1") {
-      newUser["name"] = users[key].name;
-      newUser["avatar"] = users[key].avatar;
-      newUser["userId"] = users[key].userId;
-      newUser["key"] = key;
+const printUser = (userId) => {
+  let user = getUser(userId);
+  //console.log(user.avatar);
+  return `<div class="autor">
+  <img src="${user.avatar}" alt=""> 
+  <span class="comment-autor text-blue"><small>&nbsp ${user.name}</small></span>
+  </div>`;
+};
+
+const printReplies = (postId) => {
+  $(`#replies-wrapper-${postId} li`).remove();
+  let replies = getReplies();
+  let copy = { ...replies };
+  let countReplies = 0;
+  for (key in replies) {
+    if (replies[key].post === postId) {
+      countReplies++;
+      //let user = getUser(replies[key].userId);
+      //console.log(user.avatar);
+      // console.log("traeusercomment", user);
+
+      let h3Id = Date.now();
+
+      let liHTML = `<li class="list-group-item">
+                                <div class="reply-box">
+                                    <h3 id="${h3Id}"></h3>
+                                    
+                                    <p class="mb-0 text-muted comment-text">${replies[key].content}</p>
+                                    <p class="mb-0 text-right text-muted comment-date">
+                                        <span class="date">${replies[key].creationDate}</span> 
+                                        <span class="time">${replies[key].creationTime}</span>   
+                                    </p>
+                                </div>
+                            </li>
+                        `;
+      // console.log(ulHtml)
+      /*
+      let ulHTML = document.createElement("ul");
+      ulHTML.classList = "list-group bg-white border rounded m-2";
+
+      $(ulHTML).append(liHTML);*/
+
+      let repWrapp = `#replies-wrapper-${postId}`;
+
+      $(repWrapp).prepend(liHTML);
+
+      //print user
+      let userinfo = printUser(replies[key].userId);
+      $(`#${h3Id}`).append(userinfo);
     }
   }
-  $("#change-user option[value=" + newUser.key + "]").attr("selected", true);
-  return newUser;
+  // INICIA FUNCION PARA MOSTRAR U OCULTAR LOS COMENTARIOS. Mostrando solo el primero
+  $(`#replies-wrapper-${postId} .list-group-item`)
+    .first()
+    .removeClass("list-group-item");
+  $(`#replies-wrapper-${postId} li`).first().addClass("first-list-item");
+
+  var news = 0;
+
+  hidenews = "- Hide comments";
+  shownews = "+ Show more comments";
+  console.log("mis replies", countReplies);
+  if (countReplies > 1) {
+    $(".archive").html(shownews);
+  }
+  $(".list-group-item").hide();
+
+  $(".archive").click(function (e) {
+    e.preventDefault();
+    var $container = $(e.currentTarget).closest(`#replies-wrapper-${postId}`);
+    if ($container.find(".list-group-item:eq(" + news + ")").is(":hidden")) {
+      $container.find(".list-group-item:not(:lt(" + news + "))").slideDown();
+      $container.find(".archive").html(hidenews);
+    } else {
+      $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
+      $container.find(".archive").html(shownews);
+    }
+  });
+  // ACABA FUNCION
 };
+
+const printPosts = (postsArray) => {
+  postsArray.forEach((post, index) => {
+    //clean posts wrapper
+    //$('#posts-wrapper .card').remove();
+
+    let userContainerId = Date.now();
+
+    $("#posts-wrapper").prepend(
+      `<div class="card mb-3 shadow">
+          <div class="bg-white p-3 mb-3 row no-gutters">
+            <div class="col-md-4">
+                <img class="w-100 rounded-left" src="${post.data.coverUrl}" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                  <a href="/views/postDetail.html?postkey=${post.id}" target="_blank"><h5 class="card-title text-blue">${post.data.title}</h5></a>
+                  <p class="card-text">${post.data.content}</p>
+                  <p class="card-text mb-0">
+                  <small class="text-muted">Created: <span class="text-dark">${post.data.creationDate} ${post.data.creationTime}</span></small></p>
+                  <p class="card-text px-0 py-2 mb-0" id="${userContainerId}"></p>
+                </div>
+            </div>
+          </div>
+          
+          <ul class="replies-wrapper bg-light p-3" id="replies-wrapper-${post.data.postId}" >
+          <a class="archive text-muted" href="#"></a>
+          </ul>
+          <!--replies-->
+          <div class="reply-form reply-comment-${post.data.postId}">
+              <form action="">
+                  <div class="form-group d-flex m-3">
+                      <input type="text" class="form-control comment-input" placeholder="Escribe un comentario">
+                      <button type="button" class="btn btn-primary btn-save-replie" data-commentkey="${post.data.postId}" disabled>Comentar</button>
+                  </div>
+              </form>
+          </div>
+        </div>        
+      `
+    );
+
+    let repliesObject = printReplies(post.data.postId);
+    //print user
+    let userinfo = printUser(post.data.userId);
+    $(`#${userContainerId}`).append(userinfo);
+  });
+};
+printPosts(getPosts());
+
+//printReplies(2);
+/*
+let miusuario = getUser(1);
+console.log(miusuario.name);
+console.log("found: ", getUser(1));*/
+const activeComment = (event) => {
+  let lengthComment = $(event.target).val().length;
+  //console.log(lengthComment);
+  lengthComment >= 3
+    ? $(event.target).next("button").attr("disabled", false)
+    : $(event.target).next("button").attr("disabled", true);
+};
+
+$(".comment-input").keyup(activeComment);
+
+$(".btn-save-replie").click(saveReplie);
+
+const goAddPost = () => {
+  $(location).attr("href", "/views/addPost.html");
+};
+
+$("#go-add-post").click(goAddPost);
 
 console.log(getUserLogin());
 $("#change-user").on("change", loginUser);
