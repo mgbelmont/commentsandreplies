@@ -96,7 +96,19 @@ https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/posts/.json
 https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/replies/.json
 https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/.json
 */
+const deleteUser = (key) => {
+  $.ajax({
+    method: "DELETE",
+    url: `https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/${key}.json`,
 
+    success: (response) => {
+      console.log(response);
+    },
+    error: (error) => {
+      console.log(error);
+    },
+  });
+};
 const saveReplie = (event) => {
   let postId = $(event.target).data("commentkey");
   let comment = $(`.reply-comment-${postId} form div input`).val();
@@ -174,8 +186,8 @@ const saveUsers = () => {
     method: "POST",
     url: "https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/.json",
     data: JSON.stringify({
-      userId: 3,
-      name: "Jaime Rodríguez",
+      userId: 4,
+      name: "Mariana García",
       avatar:
         "https://media-exp1.licdn.com/dms/image/C5603AQFxZihNUVo-ng/profile-displayphoto-shrink_200_200/0/1517501855544?e=1623888000&v=beta&t=SaHOe6Q1nQkH-ZQYGZy8P1OimoTNq-ZAIwZFE0uleO8",
     }),
@@ -368,30 +380,35 @@ const printPosts = (postsArray) => {
     $(`#${userContainerId}`).append(userinfo);
 
     // INICIA FUNCION PARA MOSTRAR U OCULTAR LOS COMENTARIOS. Mostrando solo el primero
-    $(`#replies-wrapper-${post.data.postId} .list-group-item`).first().removeClass("list-group-item");
-    $(`#replies-wrapper-${post.data.postId} li`).first().addClass("first-list-item");    
+    $(`#replies-wrapper-${post.data.postId} .list-group-item`)
+      .first()
+      .removeClass("list-group-item");
+    $(`#replies-wrapper-${post.data.postId} li`)
+      .first()
+      .addClass("first-list-item");
 
     var news = 0;
 
     hidenews = "- Hide comments";
     shownews = "+ Show more comments";
 
-    $(".archive").html( shownews );
+    $(".archive").html(shownews);
     $(".list-group-item").hide();
 
     $(".archive").click(function (e) {
       e.preventDefault();
-    var $container = $(e.currentTarget).closest(`#replies-wrapper-${post.data.postId}`);
-          if ($container.find(".list-group-item:eq("+news+")").is(":hidden")) {
-              $container.find(".list-group-item:not(:lt("+news+"))").slideDown();
-              $container.find(".archive").html( hidenews );
-          } else {
-              $container.find(".list-group-item:not(:lt("+news+"))").slideUp();
-              $container.find(".archive").html( shownews );
-          }
+      var $container = $(e.currentTarget).closest(
+        `#replies-wrapper-${post.data.postId}`
+      );
+      if ($container.find(".list-group-item:eq(" + news + ")").is(":hidden")) {
+        $container.find(".list-group-item:not(:lt(" + news + "))").slideDown();
+        $container.find(".archive").html(hidenews);
+      } else {
+        $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
+        $container.find(".archive").html(shownews);
+      }
     });
     // ACABA FUNCION
-
   });
 };
 printPosts(getPosts());
@@ -409,17 +426,87 @@ const activeComment = (event) => {
     : $(event.target).next("button").attr("disabled", true);
 };
 
-
-
 $(".comment-input").keyup(activeComment);
 
 $(".btn-save-replie").click(saveReplie);
 
 const goAddPost = () => {
-  $(location).attr('href','/views/addPost.html')
-}
+  $(location).attr("href", "/views/addPost.html");
+};
 
-$('#go-add-post').click(goAddPost)
+$("#go-add-post").click(goAddPost);
 
+const logoutUser = (key) => {
+  let urlString = `https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/${key}.json`;
+  $.ajax({
+    method: "PATCH",
+    url: urlString,
+    data: JSON.stringify({
+      login: 0,
+    }),
+    success: (response) => {
+      console.log(response);
+    },
+    error: (error) => {
+      console.log(error);
+    },
+  });
+};
 
+const loginUser = (event) => {
+  let userLogin = $("#change-user option:selected").val();
+  let users = getUsers();
+  for (key in users) {
+    //console.log(users[key].login);
+    if (users[key].login == "1") {
+      logoutUser(key);
+      console.log("Usuario anterior", users[key].name);
+    }
+  }
 
+  let urlString = `https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/${userLogin}.json`;
+  $.ajax({
+    method: "PATCH",
+    url: urlString,
+    data: JSON.stringify({
+      login: 1,
+    }),
+    success: (response) => {
+      console.log(response);
+    },
+    error: (error) => {
+      console.log(error);
+    },
+  });
+};
+
+const selectUsers = () => {
+  let users = getUsers();
+  for (key in users) {
+    $("#change-user").append(
+      $("<option>", {
+        value: key,
+        text: users[key].name,
+      })
+    );
+  }
+};
+//loginUser("-MYSNWmKsgdY6xSLYSeB");
+//logoutUser("-MYSNWmKsgdY6xSLYSeB");
+const getUserLogin = () => {
+  let newUser = {};
+  let users = getUsers();
+  for (key in users) {
+    if (users[key].login == "1") {
+      newUser["name"] = users[key].name;
+      newUser["avatar"] = users[key].avatar;
+      newUser["userId"] = users[key].userId;
+    }
+  }
+
+  return newUser;
+};
+
+selectUsers();
+$("#change-user").on("change", loginUser);
+console.log(getUserLogin());
