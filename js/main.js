@@ -423,7 +423,9 @@ const printReplies = (postId) => {
     }
   }
   // INICIA FUNCION PARA MOSTRAR U OCULTAR LOS COMENTARIOS. Mostrando solo el primero
-  $(`#replies-wrapper-${postId} .list-group-item`).first().removeClass("list-group-item");
+  $(`#replies-wrapper-${postId} .list-group-item`)
+    .first()
+    .removeClass("list-group-item");
   $(`#replies-wrapper-${postId} li`).first().addClass("first-list-item");
 
   var news = 0;
@@ -445,7 +447,6 @@ const printReplies = (postId) => {
     } else {
       $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
       $container.find(`.archive`).html(shownews);
-      
     }
   });
   // ACABA FUNCION
@@ -505,9 +506,10 @@ let miusuario = getUser(1);
 console.log(miusuario.name);
 console.log("found: ", getUser(1));*/
 const activeComment = (event) => {
-  let lengthComment = $(event.target).val().length;
+  let comment = $(event.target).val().trim();
+  let lengthComment = comment.length;
   //console.log(lengthComment);
-  lengthComment >= 3
+  lengthComment >= 3 && comment != ""
     ? $(event.target).next("button").attr("disabled", false)
     : $(event.target).next("button").attr("disabled", true);
 };
