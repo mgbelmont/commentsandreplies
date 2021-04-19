@@ -8,16 +8,36 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/style.css">
-  <title>Document</title>
+  <title>Blog</title>
 </head>
 
 <body>
+  <!--Modal add User-->
+  <div id="link">My video</div>
+  <div id="show-add-user"></div>
+  <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div>
+        <div class="modal-body">
+          <iframe width="700" height="450" frameborder="0" allowfullscreen=""></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <nav class="d-flex justify-content-between mb-3 px-lg-5 p-3 navbar navbar-light bg-light">
-    <a href="#"><img class="logo" src="../images/logo.png"/></a>
+    <a href="#"><img class="logo" src="../images/logo.png" /></a>
+    <button type="button" class="btn btn-primary" id="go-add-user">Agregar Usuario</button>
     <div>
-      <Label for="change-user">Usuario</Label>&nbsp;<select id="change-user"></select>
-      <button type="button" class="btn btn-primary" id="go-add-post">Agregar Post</button>  
-    </div>  
+      <Label for="change-user">Usuario</Label>&nbsp;<select class="custom-select" id="change-user"></select>
+
+      <button type="button" class="btn btn-primary" id="go-add-post">Agregar Post</button>
+    </div>
+
   </nav>
   <div class="container">
     <div class="row">

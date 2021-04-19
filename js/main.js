@@ -510,3 +510,14 @@ $("#go-add-post").click(goAddPost);
 
 console.log(getUserLogin());
 $("#change-user").on("change", loginUser);
+
+$("#go-add-user").click(function () {
+  console.log("entrA");
+  var src = "views/addUser.html";
+  $("#myModal").modal("show");
+  $("#myModal iframe").attr("src", src);
+});
+
+$("#myModal button").click(function () {
+  $("#myModal iframe").removeAttr("src");
+});
