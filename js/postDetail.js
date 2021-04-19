@@ -124,14 +124,13 @@ const printReplies = (postId) => {
       let repWrapp = `#replies-wrapper`;
 
       $(repWrapp).prepend(liHTML);
-//////////////////////////////////////////////
+      //////////////////////////////////////////////
       //print user
       let userinfo = printUser(replies[key].userId);
       $(`#${h3Id}`).append(userinfo);
     }
   }
 };
-
 
 const printPostData = (data) => {
   let {
@@ -150,25 +149,26 @@ const printPostData = (data) => {
   let dateTimeHtml = `Creado el <span class="text-dark creation">${data.creationDate}
                       ${data.creationTime}</span>`;
   $(".creation").append(dateTimeHtml);
-  $(".btn-save-replie").attr("data-commentkey",data.postId)
+  $(".btn-save-replie").attr("data-commentkey", data.postId);
   printReplies(data.postId);
 };
 printPostData(getPost(postKey));
 
 const goAddPost = () => {
-  $(location).attr('href','/views/addPost.html')
-}
+  $(location).attr("href", "/views/addPost.html");
+};
 
 const activeComment = (event) => {
-  let lengthComment = $(event.target).val().length;
+  let comment = $(event.target).val().trim();
+  let lengthComment = comment.length;
   //console.log(lengthComment);
-  lengthComment >= 3
+  lengthComment >= 3 && comment != ""
     ? $(event.target).next("button").attr("disabled", false)
     : $(event.target).next("button").attr("disabled", true);
 };
 
 const saveReplie = (event) => {
-  let postId =  $(event.target).data("commentkey");
+  let postId = $(event.target).data("commentkey");
   let comment = $(`.reply-comment form div input`).val();
   //let message = `<div class="error-comment">Ingresa un comentario<div>`;
   //$(`#replies-wrapper-${postId}`).append(message);
@@ -199,6 +199,4 @@ $(".comment-input").keyup(activeComment);
 
 $(".btn-save-replie").click(saveReplie);
 
-
-
-$('#go-add-post-detail').click(goAddPost)
+$("#go-add-post-detail").click(goAddPost);
