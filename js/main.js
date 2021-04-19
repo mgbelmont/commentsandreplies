@@ -96,6 +96,21 @@ https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/posts/.json
 https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/replies/.json
 https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/users/.json
 */
+
+const deletePost = (key) => {
+  $.ajax({
+    method: "DELETE",
+    url: `https://ajaxclass-1ca34.firebaseio.com/11g/teamcm/posts/${key}.json`,
+
+    success: (response) => {
+      console.log(response);
+    },
+    error: (error) => {
+      console.log(error);
+    },
+  });
+};
+
 const deleteUser = (key) => {
   $.ajax({
     method: "DELETE",
@@ -408,22 +423,20 @@ const printReplies = (postId) => {
     }
   }
   // INICIA FUNCION PARA MOSTRAR U OCULTAR LOS COMENTARIOS. Mostrando solo el primero
-  $(`#replies-wrapper-${postId} .list-group-item`)
-    .first()
-    .removeClass("list-group-item");
+  $(`#replies-wrapper-${postId} .list-group-item`).first().removeClass("list-group-item");
   $(`#replies-wrapper-${postId} li`).first().addClass("first-list-item");
 
   var news = 0;
 
   hidenews = "- Hide comments";
-  shownews = "+ Show more comments";
+  shownews = `+ Show more comments (${countReplies})`;
   console.log("mis replies", countReplies);
   if (countReplies > 1) {
-    $(".archive").html(shownews);
+    $(`#replies-wrapper-${postId} .archive`).html(shownews);
   }
   $(".list-group-item").hide();
 
-  $(".archive").click(function (e) {
+  $(`#replies-wrapper-${postId} .archive`).click(function (e) {
     e.preventDefault();
     var $container = $(e.currentTarget).closest(`#replies-wrapper-${postId}`);
     if ($container.find(".list-group-item:eq(" + news + ")").is(":hidden")) {
@@ -431,7 +444,8 @@ const printReplies = (postId) => {
       $container.find(".archive").html(hidenews);
     } else {
       $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
-      $container.find(".archive").html(shownews);
+      //$container.find(`.archive`).html(shownews);
+      $(`#replies-wrapper-${postId} .archive`).html(shownews);
     }
   });
   // ACABA FUNCION
@@ -503,7 +517,7 @@ $(".comment-input").keyup(activeComment);
 $(".btn-save-replie").click(saveReplie);
 
 const goAddPost = () => {
-  $(location).attr("href", "/views/addPost.html");
+  $(location).attr("href", "views/addPost.html");
 };
 
 $("#go-add-post").click(goAddPost);

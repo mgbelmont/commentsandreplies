@@ -82,3 +82,6 @@
     margin: auto;
   }
 }
+button{
+  white-space:nowrap;
+}
