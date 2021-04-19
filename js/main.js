@@ -444,8 +444,8 @@ const printReplies = (postId) => {
       $container.find(".archive").html(hidenews);
     } else {
       $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
-      //$container.find(`.archive`).html(shownews);
-      $(`#replies-wrapper-${postId} .archive`).html(shownews);
+      $container.find(`.archive`).html(shownews);
+      
     }
   });
   // ACABA FUNCION
