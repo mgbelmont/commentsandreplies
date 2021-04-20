@@ -505,7 +505,6 @@ const goAddPost = () => {
 };
 
 $("#go-add-post").click(goAddPost);
-$("#go-add-post-mob").click(goAddPost);
 
 console.log(getUserLogin());
 $("#change-user").on("change", loginUser);
@@ -529,7 +528,6 @@ const goAddUser = () => {
 };
 
 $("#go-add-user").click(goAddUser);
-$("#go-add-user-mob").click(goAddUser);
 
 $("#myModal button").click(function () {
   $("#myModal iframe").removeAttr("src");
