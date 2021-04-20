@@ -415,8 +415,11 @@ const printReplies = (postId) => {
 
   hidenews = "- Hide comments";
   shownews = `+ Show more comments (${countReplies})`;
-  $(".archive").html( shownews );
-  $(".list-group-item").hide();
+  console.log("mis replies", countReplies);
+  if (countReplies > 1) {
+    $(`#replies-wrapper-${postId} .archive`).html(shownews);
+  }
+  $(`#replies-wrapper-${postId} .list-group-item`).hide();
 
   $(`#replies-wrapper-${postId} .archive`).click(function (e) {
     e.preventDefault();
@@ -505,6 +508,7 @@ const goAddPost = () => {
 };
 
 $("#go-add-post").click(goAddPost);
+$("#go-add-post-mob").click(goAddPost);
 
 console.log(getUserLogin());
 $("#change-user").on("change", loginUser);
@@ -528,6 +532,7 @@ const goAddUser = () => {
 };
 
 $("#go-add-user").click(goAddUser);
+$("#go-add-user-mob").click(goAddUser);
 
 $("#myModal button").click(function () {
   $("#myModal iframe").removeAttr("src");
