@@ -13,7 +13,7 @@
 
 <body>
   <nav class="d-flex justify-content-between mb-3 px-lg-5 p-3 navbar navbar-light bg-light">
-    <a href="../index.html"><img class="logo" src="../images/logo.png"/></a>
+    <a href="../index.html"><img class="logo" src="../images/logo.png" /></a>
     <button type="button" class="btn btn-primary" id="go-add-post-detail">Agregar Post</button>
   </nav>
   <div class="container">
@@ -22,7 +22,7 @@
         <div class="card mb-3 shadow">
           <div class="bg-white p-3 mb-3 row no-gutters">
             <div class="col-md-12">
-              <img class="w-100 rounded-left" src="" alt="...">
+              <img class="post-image rounded-left" src="" alt="...">
             </div>
             <div class="col-md-12 mt-3">
               <div class="card-body">
@@ -39,16 +39,16 @@
           </div>
 
           <div class="replies-wrapper bg-light p-2">
-            <ul class="replies-wrapper bg-light p-3" id="replies-wrapper" >
+            <ul class="replies-wrapper bg-light p-3" id="replies-wrapper">
               <a class="archive text-muted" href="#"></a>
             </ul>
             <!--replies-->
             <div class="reply-form reply-comment">
               <form action="">
                 <div class="form-group d-flex m-3">
-                  <input type="text" class="form-control" placeholder="Escribe un comentario">
-                  <button type="button" class="btn btn-primary btn-save-replie"
-                    data-commentkey="">Comentar</button>
+                  <input type="text" class="form-control comment-input" placeholder="Escribe un comentario">
+                  <button type="button" class="btn btn-primary btn-save-replie" data-commentkey=""
+                    disabled>Comentar</button>
                 </div>
               </form>
             </div>
@@ -63,7 +63,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
     crossorigin="anonymous"></script>
-    <script src="../js/moment.js"></script>
+  <script src="../js/moment.js"></script>
   <script src="../js/postDetail.js"></script>
 </body>
 
