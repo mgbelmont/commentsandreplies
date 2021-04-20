@@ -415,11 +415,8 @@ const printReplies = (postId) => {
 
   hidenews = "- Hide comments";
   shownews = `+ Show more comments (${countReplies})`;
-  console.log("mis replies", countReplies);
-  if (countReplies > 1) {
-    $(`#replies-wrapper-${postId} .archive`).html(shownews);
-  }
-  $(`#replies-wrapper-${postId} .list-group-item`).hide();
+  $(".archive").html( shownews );
+  $(".list-group-item").hide();
 
   $(`#replies-wrapper-${postId} .archive`).click(function (e) {
     e.preventDefault();
@@ -431,6 +428,8 @@ const printReplies = (postId) => {
       $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
       $container.find(".archive").html(shownews);
     }
+
+    $(repWrapp).prepend(liHTML);
   });
   // ACABA FUNCION
 };
