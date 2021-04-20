@@ -29,28 +29,19 @@
     </div>
   </div>
 
-  <nav class="d-flex justify-content-between mb-3 px-lg-5 p-3 navbar navbar-light bg-light">
+  <nav class="d-flex justify-content-between mb-3 px-lg-5 p-3 navbar navbar-expand-lg navbar-light bg-light">
     <a href="#"><img class="logo" src="./images/logo.png" /></a>
     
-    <div class="menu d-none d-lg-block">
-      <div class="d-flex align-items-center">
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
+    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    
+    <div class="collapse navbar-collapse pt-4" id="navbarSupportedContent15">
+      <div class="d-flex align-items-center " >
         <button type="button" class="btn btn-primary mr-3" id="go-add-post">Agregar Post</button>
         <button type="button" class="btn btn-primary mr-3" id="go-add-user">Agregar Usuario</button>
         <Label for="change-user">Usuario</Label>&nbsp;<select class="custom-select" id="change-user"></select>
       </div>
-    </div>
-
-    <!-- Collapse button -->
-    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent15"
-    aria-controls="navbarSupportedContent15" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse pt-4" id="navbarSupportedContent15">
-        <button type="button" class="btn btn-primary mr-3" id="go-add-post-mob">Agregar Post</button>
-        <button type="button" class="btn btn-primary mr-3" id="go-add-user-mob">Agregar Usuario</button><br>
-        <Label for="change-user" class="pt-2">Usuario</Label>&nbsp;<select class="custom-select" id="change-user"></select>
-    </div>
-    <!-- Collapsible content -->
+    </div>  
   </nav>
 
   <div class="container">
