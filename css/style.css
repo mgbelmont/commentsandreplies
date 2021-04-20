@@ -15,7 +15,7 @@
 }
 
 .card-body{
-  padding-top: 0;
+  padding: 0 auto;
 }
 .autor img{
   width: 35px;
@@ -84,4 +84,11 @@
 }
 button{
   white-space:nowrap;
+}
+
+
+.post-image{
+  width: 30%;
+  height: 200px;
+  object-fit: cover;
 }
