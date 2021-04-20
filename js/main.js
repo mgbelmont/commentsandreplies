@@ -463,7 +463,7 @@ const printPosts = (postsArray) => {
       `<div class="card mb-3 shadow">
           <div class="bg-white p-3 mb-3 row no-gutters">
             <div class="col-md-4">
-                <img class="w-100 rounded-left" src="${post.data.coverUrl}" alt="...">
+                <img class="post-list-image rounded-left" src="${post.data.coverUrl}" alt="...">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
