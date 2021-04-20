@@ -408,22 +408,20 @@ const printReplies = (postId) => {
     }
   }
   // INICIA FUNCION PARA MOSTRAR U OCULTAR LOS COMENTARIOS. Mostrando solo el primero
-  $(`#replies-wrapper-${postId} .list-group-item`)
-    .first()
-    .removeClass("list-group-item");
+  $(`#replies-wrapper-${postId} .list-group-item`).first().removeClass("list-group-item");
   $(`#replies-wrapper-${postId} li`).first().addClass("first-list-item");
 
   var news = 0;
 
   hidenews = "- Hide comments";
-  shownews = "+ Show more comments";
+  shownews = `+ Show more comments (${countReplies})`;
   console.log("mis replies", countReplies);
   if (countReplies > 1) {
-    $(".archive").html(shownews);
+    $(`#replies-wrapper-${postId} .archive`).html(shownews);
   }
-  $(".list-group-item").hide();
+  $(`#replies-wrapper-${postId} .list-group-item`).hide();
 
-  $(".archive").click(function (e) {
+  $(`#replies-wrapper-${postId} .archive`).click(function (e) {
     e.preventDefault();
     var $container = $(e.currentTarget).closest(`#replies-wrapper-${postId}`);
     if ($container.find(".list-group-item:eq(" + news + ")").is(":hidden")) {
