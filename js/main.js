@@ -513,19 +513,26 @@ $("#go-add-post-mob").click(goAddPost);
 console.log(getUserLogin());
 $("#change-user").on("change", loginUser);
 
-$("#go-add-user").click(function () {
+/* $("#go-add-user").click(function () {
   console.log("entrA");
   var src = "views/addUser.html";
   $("#myModal").modal("show");
   $("#myModal iframe").attr("src", src);
-});
+}); */
 
-$("#go-add-user-mob").click(function () {
+/* $("#go-add-user-mob").click(function () {
   console.log("entrA");
   var src = "views/addUser.html";
   $("#myModal").modal("show");
   $("#myModal iframe").attr("src", src);
-});
+}); */
+
+const goAddUser = () => {
+  $(location).attr("href", "/views/addUser.html");
+};
+
+$("#go-add-user").click(goAddUser);
+$("#go-add-user-mob").click(goAddUser);
 
 $("#myModal button").click(function () {
   $("#myModal iframe").removeAttr("src");
