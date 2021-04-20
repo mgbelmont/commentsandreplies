@@ -418,13 +418,13 @@ const printReplies = (postId) => {
   //console.log("mis replies", countReplies);
 
   if (countReplies > 1) {
-    $(`#replies-wrapper-${postId} .archive`).html(shownews);
+   // leemos cada archive dentro de su respectivo wrapper para hacer el conteo de los comments 
+  $(`#replies-wrapper-${postId} .archive`).html(`${shownews} (${countReplies})`);
   }
 
   $(`#replies-wrapper-${postId} .list-group-item`).hide();
 
-  // leemos cada archive dentro de su respectivo wrapper para hacer el conteo de los comments 
-  $(`#replies-wrapper-${postId} .archive`).html(`${shownews} (${countReplies})`);
+  
 
   $(`#replies-wrapper-${postId} .archive`).click(function (e) {
     e.preventDefault();
