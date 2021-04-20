@@ -414,12 +414,17 @@ const printReplies = (postId) => {
   var news = 0;
 
   hidenews = "- Hide comments";
-  shownews = `+ Show more comments (${countReplies})`;
-  console.log("mis replies", countReplies);
+  shownews = `+ Show more comments `;
+  //console.log("mis replies", countReplies);
+
   if (countReplies > 1) {
     $(`#replies-wrapper-${postId} .archive`).html(shownews);
   }
+
   $(`#replies-wrapper-${postId} .list-group-item`).hide();
+
+  // leemos cada archive dentro de su respectivo wrapper para hacer el conteo de los comments 
+  $(`#replies-wrapper-${postId} .archive`).html(`${shownews} (${countReplies})`);
 
   $(`#replies-wrapper-${postId} .archive`).click(function (e) {
     e.preventDefault();
@@ -429,7 +434,8 @@ const printReplies = (postId) => {
       $container.find(".archive").html(hidenews);
     } else {
       $container.find(".list-group-item:not(:lt(" + news + "))").slideUp();
-      $container.find(".archive").html(shownews);
+      // volvemos a imrpimir el conteo de los cooments
+      $container.find(".archive").html(`${shownews} (${countReplies})`);
     }
 
     $(repWrapp).prepend(liHTML);
